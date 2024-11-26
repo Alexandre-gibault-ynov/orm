@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Manager\EntityManager;
+use App\Model\Entity;
 use App\Model\News;
 use App\Model\VO\Uid;
 use App\Repository\NewsRepository;
 
-class NewsEntityManager
+class NewsEntityManager implements EntityManager
 {
     private NewsRepository $repository;
 
@@ -16,21 +18,24 @@ class NewsEntityManager
         $this->repository = $repository;
     }
 
-    public function getById(Uid $id): News {
+    public function getById(Uid $id): Entity
+    {
         return $this->repository->getById($id);
     }
 
-    public function create(News $news): News {
-        $this->repository->save($news);
-        return $news;
+    public function create(Entity $entity): Entity
+    {
+        $this->repository->save($entity);
+        return $entity;
     }
 
-    public function update(News $news): News {
-        $this->repository->save($news);
-        return $news;
+    public function update(Entity $entity): Entity
+    {
+        $this->repository->save($entity);
+        return $entity;
     }
 
-    public function delete(News $news): void {
-        $this->repository->delete($news->getId());
+    public function delete(Entity $entity): void {
+        $this->repository->delete($entity->getId());
     }
 }
