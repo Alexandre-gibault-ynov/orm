@@ -7,7 +7,7 @@ namespace App\Model;
 use App\Model\VO\Uid;
 use DateTimeImmutable;
 
-final class News
+final class News implements Entity
 {
     private ?Uid $id;
     private string $content;
@@ -24,9 +24,9 @@ final class News
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeImmutable $createdAt): void
+    public function setCreatedAt(DateTimeImmutable $date): void
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = $date;
     }
 
     public function getContent(): string

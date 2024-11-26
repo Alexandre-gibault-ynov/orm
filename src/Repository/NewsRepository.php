@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Adapter\MySQLAdapter;
+use App\Model\Entity;
 use App\Model\News;
 use App\Model\VO\Uid;
 
-final class NewsRepository
+final class NewsRepository implements Repository
 {
     private MySQLAdapter $adapter;
 
@@ -22,23 +23,23 @@ final class NewsRepository
         return $data ? new News($data) : null;
     }
 
-    public function save(News $news): void {
-        if ($news->getId() === null) {
+    public function save(Entity $entity): void {
+        if ($entity->getId() === null) {
             $this->adapter->query(
                 "INSERT INTO News (id, content, created_at) VALUES (:id, :content, :created_at)",
                 [
-                    'id' => $news->getId()->getValue(),
-                    'content' => $news->getContent(),
-                    'created_at' => $news->getCreatedAt()->format('Y-m-d H:i:s')
+                    'id' => $entity->getId()->getValue(),
+                    'content' => $entity->getContent(),
+                    'created_at' => $entity->getCreatedAt()->format('Y-m-d H:i:s')
                 ]
             );
         } else {
             $this->adapter->query(
                 "UPDATE News SET content = :content, created_at = :created_at WHERE id = :id",
                 [
-                    'id' => $news->getId()->getValue(),
-                    'content' => $news->getContent(),
-                    'created_at' => $news->getCreatedAt()->format('Y-m-d H:i:s')
+                    'id' => $entity->getId()->getValue(),
+                    'content' => $entity->getContent(),
+                    'created_at' => $entity->getCreatedAt()->format('Y-m-d H:i:s')
                 ]
             );
         }
