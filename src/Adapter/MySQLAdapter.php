@@ -2,25 +2,24 @@
 
 declare(strict_types=1);
 
-namespace AlexandreGibault\Orm\Adapter;
+namespace App\Adapter;
 
 use PDO;
 use PDOStatement;
 
-final class MySQLAdapter
-{
-    private static ?MySQLAdapter $instance = null;
+final class MySQLAdapter {
+    private static ?self $instance = null;
     private PDO $connection;
 
     private function __construct(array $config) {
-        $dsn = "mysql:host={$config['host']};dbname={$config['database']};charset={$config['charset']}";
+        $dsn = sprintf('mysql:host=%s;dbname=%s;charset=%s', $config['host'], $config['database'], $config['charset']);
         $this->connection = new PDO($dsn, $config['username'], $config['password']);
         $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
-    public static function getInstance(array $config): MySQLAdapter {
-        if (self::$instance === null) {
-            self::$instance = new MySQLAdapter($config);
+    public static function getInstance(array $config): self {
+        if (!self::$instance) {
+            self::$instance = new self($config);
         }
         return self::$instance;
     }
