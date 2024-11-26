@@ -16,5 +16,7 @@
             "email": "alexandre.gibault@ynov.com"
         }
     ],
-    "require": {}
+    "require": {
+      "ext-pdo": "*"
+    }
 }
