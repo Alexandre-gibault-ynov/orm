@@ -8,6 +8,7 @@ use App\Adapter\MySQLAdapter;
 use App\Model\Entity;
 use App\Model\News;
 use App\Model\VO\Uid;
+use PDO;
 
 final class NewsRepository implements Repository
 {
@@ -25,6 +26,9 @@ final class NewsRepository implements Repository
 
     public function save(Entity $entity): void {
         if ($entity->getId() === null) {
+            $id = Uid::generate();
+            $entity->setId($id);
+
             $this->adapter->query(
                 "INSERT INTO News (id, content, created_at) VALUES (:id, :content, :created_at)",
                 [
