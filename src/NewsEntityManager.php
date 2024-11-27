@@ -6,7 +6,6 @@ namespace App;
 
 use App\Manager\EntityManager;
 use App\Model\Entity;
-use App\Model\News;
 use App\Model\VO\Uid;
 use App\Repository\NewsRepository;
 

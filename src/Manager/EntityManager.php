@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Manager;
 
 use App\Model\Entity;
-use App\Model\News;
 use App\Model\VO\Uid;
 
 interface EntityManager
@@ -19,7 +18,7 @@ interface EntityManager
     public function getById(Uid $id): Entity;
 
     /**
-     * Create and persist a new News.
+     * Create and persist a new Entity.
      *
      * @param Entity $entity The Entity to persist.
      * @return Entity The persisted Entity.
@@ -27,7 +26,7 @@ interface EntityManager
     public function create(Entity $entity): Entity;
 
     /**
-     * Update a persisted News.
+     * Update a persisted Entity.
      *
      * @param Entity $entity The Entity to update.
      * @return Entity The updated Entity
