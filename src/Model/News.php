@@ -18,7 +18,7 @@ final class News implements Entity
     /**
      * The news entity content.
      *
-     * @var string|mixed
+     * @var string
      */
     private string $content;
 
@@ -30,9 +30,9 @@ final class News implements Entity
     private DateTimeImmutable $createdAt;
 
     public function __construct(NewsDTO $dto) {
-        $this->id = $dto->id;
-        $this->content = $dto->content;
-        $this->createdAt = $dto->createdAt;
+        $this->id = $dto->getId();
+        $this->content = $dto->getContent();
+        $this->createdAt = $dto->getCreatedAt();
     }
 
     public function getCreatedAt(): DateTimeImmutable
