@@ -9,8 +9,23 @@ use DateTimeImmutable;
 
 final class News implements Entity
 {
+    /**
+     * @var Uid|null The news entity's id.
+     */
     private ?Uid $id;
+
+    /**
+     * The news entity content.
+     *
+     * @var string|mixed
+     */
     private string $content;
+
+    /**
+     * The news entity creation date.
+     *
+     * @var DateTimeImmutable
+     */
     private DateTimeImmutable $createdAt;
 
     public function __construct(array $data) {
