@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model;
 
+use App\Model\DTO\NewsDTO;
 use App\Model\VO\Uid;
 use DateTimeImmutable;
 
@@ -28,10 +29,10 @@ final class News implements Entity
      */
     private DateTimeImmutable $createdAt;
 
-    public function __construct(array $data) {
-        $this->id = $data['id'] ? new Uid($data['id']) : null;
-        $this->content = $data['content'];
-        $this->createdAt = new DateTimeImmutable($data['created_at']);
+    public function __construct(NewsDTO $dto) {
+        $this->id = $dto->id;
+        $this->content = $dto->content;
+        $this->createdAt = $dto->createdAt;
     }
 
     public function getCreatedAt(): DateTimeImmutable
