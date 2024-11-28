@@ -11,7 +11,7 @@ final class MySQLAdapter implements DatabaseAdapterInterface {
 
     private PDO $connection;
 
-    private function __construct(array $config) {
+    public function __construct(array $config) {
         $dsn = "mysql:host={$config['host']};dbname={$config['database']};charset={$config['charset']}";
         $this->connection = new PDO($dsn, $config['username'], $config['password']);
         $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

@@ -20,24 +20,24 @@ interface EntityManager
     /**
      * Create and persist a new Entity.
      *
-     * @param News $entity The Entity to persist.
+     * @param News $news The Entity to persist.
      * @return News The persisted Entity.
      */
-    public function create(News $entity): News;
+    public function create(News $news): News;
 
     /**
      * Update a persisted Entity.
      *
-     * @param News $entity The Entity to update.
+     * @param News $news The Entity to update.
      * @return News The updated Entity
      */
-    public function update(News $entity): News;
+    public function update(News $news): News;
 
     /**
      * Delete the provided Entity.
      *
-     * @param News $entity The Entity to delete.
+     * @param News $news The Entity to delete.
      * @return void
      */
-    public function delete(News $entity): void;
+    public function delete(News $news): void;
 }
