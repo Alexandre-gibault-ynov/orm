@@ -46,7 +46,7 @@ class NewsEntityManager implements EntityManager
     {
         $sql = "UPDATE news SET content = :content, created_at = :created_at WHERE id = :id";
         $this->adapter->execute($sql, [
-            'id' => $news->getId(),
+            'id' => $news->getId()->getValue(),
             'content' => $news->getContent(),
             'created_at' => $news->getCreatedAt()->format('Y-m-d H:i:s'),
         ]);
