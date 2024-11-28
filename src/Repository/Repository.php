@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Model\Entity;
+use App\Model\News;
 use App\Model\VO\Uid;
 
 interface Repository
@@ -13,17 +13,17 @@ interface Repository
      * Get an entity corresponding to the id.
      *
      * @param Uid $id The entity's id.
-     * @return Entity|null The entity corresponding to the provided id.
+     * @return News|null The entity corresponding to the provided id.
      */
-    public function getById(Uid $id): ?Entity;
+    public function getById(Uid $id): ?News;
 
     /**
      * Persist an entity.
      *
-     * @param Entity $entity The entity to persist.
+     * @param News $entity The entity to persist.
      * @return void
      */
-    public function save(Entity $entity): void;
+    public function save(News $entity): void;
 
 
     /**
