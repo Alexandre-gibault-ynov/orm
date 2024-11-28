@@ -4,6 +4,7 @@ namespace App\Model\DTO;
 
 use App\Model\VO\Uid;
 use DateTimeImmutable;
+use DateMalformedStringException;
 
 class NewsDTO
 {
@@ -30,6 +31,21 @@ class NewsDTO
         $this->id = $id;
         $this->content = $content;
         $this->createdAt = $createdAt;
+    }
+
+    /**
+     * Return a DTO from initialized from the array values.
+     *
+     * @param array $data The data to initialize.
+     * @return self The DTO initialized with data.
+     * @throws DateMalformedStringException
+     */
+    public static function fromArray(array $data): self {
+        return new self(
+            isset($data['id']) ? new Uid($data['id']) : null,
+            $data['content'],
+            new DateTimeImmutable($data['created_at'])
+        );
     }
 
     /**
