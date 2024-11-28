@@ -4,59 +4,42 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Adapter\MySQLAdapter;
+use App\Adapter\DatabaseAdapterInterface;
 use App\Model\DTO\NewsDTO;
 use App\Model\News;
 use App\Model\VO\Uid;
+use DateMalformedStringException;
+use DateTimeImmutable;
 use PDO;
 
-final class NewsRepository implements Repository
+final class NewsRepository implements NewsRepositoryinterface
 {
-    private MySQLAdapter $adapter;
+    private DatabaseAdapterInterface $adapter;
 
-    public function __construct(MySQLAdapter $adapter) {
+    public function __construct(DatabaseAdapterInterface $adapter) {
         $this->adapter = $adapter;
     }
 
-    public function getById(Uid $id): ?News {
-        $stmt = $this->adapter->query("SELECT * FROM news WHERE id = :id", ['id' => $id->getValue()]);
+    /**
+     * @param string $id
+     * @return News|null
+     * @throws DateMalformedStringException
+     */
+    public function findById(string $id): ?News {
+        $sql = "SELECT * FROM news WHERE id = :id";
+        $stmt = $this->adapter->query($sql, ['id' => $id]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$data) {
             return null;
         }
 
-        $dto = NewsDTO::fromArray($data);
+        $id = isset($data['id']) ? new Uid($data['id']) : null;
+        $content = $data['content'];
+        $createdAt = new DateTimeImmutable($data['created_at']);
 
-        return $data ? new News($data) : null;
-    }
+        $newsDto = new NewsDTO($id, $content, $createdAt);
 
-    public function save(News $entity): void {
-        if ($entity->getId() === null) {
-            $id = Uid::generate();
-            $entity->setId($id);
-
-            $this->adapter->query(
-                "INSERT INTO news (id, content, created_at) VALUES (:id, :content, :created_at)",
-                [
-                    'id' => $entity->getId()->getValue(),
-                    'content' => $entity->getContent(),
-                    'created_at' => $entity->getCreatedAt()->format('Y-m-d H:i:s')
-                ]
-            );
-        } else {
-            $this->adapter->query(
-                "UPDATE news SET content = :content, created_at = :created_at WHERE id = :id",
-                [
-                    'id' => $entity->getId()->getValue(),
-                    'content' => $entity->getContent(),
-                    'created_at' => $entity->getCreatedAt()->format('Y-m-d H:i:s')
-                ]
-            );
-        }
-    }
-
-    public function delete(Uid $id): void {
-        $this->adapter->query("DELETE FROM news WHERE id = :id", ['id' => $id->getValue()]);
+        return new News($newsDto);
     }
 }
