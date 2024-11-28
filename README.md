@@ -1,6 +1,15 @@
 # ORM Project
 
-This project implements a lightweight **Object-Relational Mapping (ORM)** in PHP to interact with a MySQL database. It follows a modular architecture consisting of an **Adapter**, a **Repository**, and a **Manager**.
+---
+
+Group members: Alexandre GIBAULT
+
+---
+This project implements a lightweight 
+**Object-Relational Mapping (ORM)** in PHP to interact with 
+a MySQL database. It follows a modular architecture 
+consisting of an **Adapter**, a **Repository**, 
+and a **Manager**.
 
 The ORM allows:
 - **Reading** data via the Repository.
