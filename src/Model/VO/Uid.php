@@ -16,6 +16,15 @@ final class Uid
         return $this->value;
     }
 
+    /**
+     * @param string $value
+     * @return void
+     */
+    public function setValue(string $value): void
+    {
+        $this->value = $value;
+    }
+
     public static function generate(): self {
         $uuid = bin2hex(random_bytes(16));
         return new self($uuid);

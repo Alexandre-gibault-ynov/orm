@@ -7,6 +7,7 @@ namespace App\Model;
 use App\Model\DTO\NewsDTO;
 use App\Model\VO\Uid;
 use DateTimeImmutable;
+use DateTimeInterface;
 
 final class News implements Entity
 {
@@ -25,9 +26,9 @@ final class News implements Entity
     /**
      * The news entity creation date.
      *
-     * @var DateTimeImmutable
+     * @var DateTimeInterface
      */
-    private DateTimeImmutable $createdAt;
+    private DateTimeInterface $createdAt;
 
     public function __construct(NewsDTO $dto) {
         $this->id = $dto->getId();
@@ -35,12 +36,12 @@ final class News implements Entity
         $this->createdAt = $dto->getCreatedAt();
     }
 
-    public function getCreatedAt(): DateTimeImmutable
+    public function getCreatedAt(): DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeImmutable $date): void
+    public function setCreatedAt(DateTimeInterface $date): void
     {
         $this->createdAt = $date;
     }
