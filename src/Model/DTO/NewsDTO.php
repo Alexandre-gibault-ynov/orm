@@ -5,6 +5,7 @@ namespace App\Model\DTO;
 use App\Model\VO\Uid;
 use DateTimeImmutable;
 use DateMalformedStringException;
+use DateTimeInterface;
 
 class NewsDTO
 {
@@ -23,11 +24,11 @@ class NewsDTO
     private string $content;
 
     /**
-     * @var DateTimeImmutable The date of creation of the entity.
+     * @var DateTimeInterface The date of creation of the entity.
      */
-    private DateTimeImmutable $createdAt;
+    private DateTimeInterface $createdAt;
 
-    public function __construct(?Uid $id, string $content, DateTimeImmutable $createdAt) {
+    public function __construct(?Uid $id, string $content, DateTimeInterface $createdAt) {
         $this->id = $id;
         $this->content = $content;
         $this->createdAt = $createdAt;
@@ -42,9 +43,7 @@ class NewsDTO
      */
     public static function fromArray(array $data): self {
         return new self(
-            isset($data['id']) ? new Uid($data['id']) : null,
-            $data['content'],
-            new DateTimeImmutable($data['created_at'])
+            isset($data['id']) ? new Uid($data['id']) : Uid::generate(), $data['content'], new DateTimeImmutable($data['created_at'])
         );
     }
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Model;
 
 use App\Model\VO\Uid;
-use DateTimeImmutable;
+use DateTimeInterface;
 
 
 /**
@@ -46,15 +46,15 @@ interface Entity
     /**
      * Return the entity's creation date.
      *
-     * @return DateTimeImmutable
+     * @return DateTimeInterface
      */
-    public function getCreatedAt(): DateTimeImmutable;
+    public function getCreatedAt(): DateTimeInterface;
 
     /**
      * Set the entity's creation date.
      *
-     * @param DateTimeImmutable $date The date to set.
+     * @param DateTimeInterface $date The date to set.
      * @return void
      */
-    public function setCreatedAt(DateTimeImmutable $date): void;
+    public function setCreatedAt(DateTimeInterface $date): void;
 }
