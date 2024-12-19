@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use APP/Command/AddUserCommand;
-use APP/Command/UpdateUserCommand;
-use APP/Command/DeleteUserCommand;
+use App\Command\AddUserCommand;
+use App\Command\UpdateUserCommand;
+use App\Command\DeleteUserCommand;
 
 $args = getopt('', ['action:', 'data:']);
 
