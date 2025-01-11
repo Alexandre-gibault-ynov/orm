@@ -7,7 +7,7 @@ namespace App\Adapter;
 use PDO;
 use PDOStatement;
 
-final class MySQLAdapter implements DatabaseAdapterInterface {
+final class MySQLAdapter implements DatabaseAdapter {
 
     private PDO $connection;
 

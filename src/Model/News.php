@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-use App\Model\DTO\NewsDTO;
 use App\Model\VO\Uid;
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -30,10 +29,11 @@ final class News implements Entity
      */
     private DateTimeInterface $createdAt;
 
-    public function __construct(NewsDTO $dto) {
-        $this->id = $dto->getId();
-        $this->content = $dto->getContent();
-        $this->createdAt = $dto->getCreatedAt();
+    public function __construct(?Uid $id, string $content, DateTimeInterface $createdAt)
+    {
+        $this->id = $id;
+        $this->content = $content;
+        $this->createdAt = $createdAt;
     }
 
     public function getCreatedAt(): DateTimeInterface
@@ -46,11 +46,23 @@ final class News implements Entity
         $this->createdAt = $date;
     }
 
+    /**
+     * Get the news content.
+     *
+     * @return string The news content.
+     */
     public function getContent(): string
     {
         return $this->content;
     }
 
+
+    /**
+     * Set the news content.
+     *
+     * @param string $content The news content to set.
+     * @return void
+     */
     public function setContent(string $content): void
     {
         $this->content = $content;
@@ -61,7 +73,7 @@ final class News implements Entity
         return $this->id;
     }
 
-    public function setId(?Uid $id): void
+    public function setId(Uid $id): void
     {
         $this->id = $id;
     }

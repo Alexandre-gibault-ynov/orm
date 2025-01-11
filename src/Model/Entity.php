@@ -29,21 +29,6 @@ interface Entity
     public function setId(Uid $id): void;
 
     /**
-     * Return the entity's content.
-     *
-     * @return string The entity's content.
-     */
-    public function getContent(): string;
-
-    /**
-     * Set the entity's content.
-     *
-     * @param string $content The content to set.
-     * @return void
-     */
-    public function setContent(string $content): void;
-
-    /**
      * Return the entity's creation date.
      *
      * @return DateTimeInterface

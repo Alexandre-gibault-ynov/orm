@@ -4,28 +4,28 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Adapter\DatabaseAdapterInterface;
-use App\Model\DTO\NewsDTO;
+use App\Adapter\DatabaseAdapter;
+use App\Model\Entity;
 use App\Model\News;
 use App\Model\VO\Uid;
 use DateMalformedStringException;
 use DateTimeImmutable;
 use PDO;
 
-final class NewsRepository implements NewsRepositoryinterface
+final class NewsRepository implements Repository
 {
-    private DatabaseAdapterInterface $adapter;
+    private DatabaseAdapter $adapter;
 
-    public function __construct(DatabaseAdapterInterface $adapter) {
+    public function __construct(DatabaseAdapter $adapter) {
         $this->adapter = $adapter;
     }
 
     /**
-     * @param string $id
-     * @return News|null
+     * @inheritDoc
      * @throws DateMalformedStringException
      */
-    public function findById(string $id): ?News {
+    public function findById(string $id): ?Entity
+    {
         $sql = "SELECT * FROM news WHERE id = :id";
         $stmt = $this->adapter->query($sql, ['id' => $id]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -34,12 +34,10 @@ final class NewsRepository implements NewsRepositoryinterface
             return null;
         }
 
-        $id = isset($data['id']) ? new Uid($data['id']) : null;
+        $entityId = isset($data['id']) ? new Uid($data['id']) : null;
         $content = $data['content'];
         $createdAt = new DateTimeImmutable($data['created_at']);
 
-        $newsDto = new NewsDTO($id, $content, $createdAt);
-
-        return new News($newsDto);
+        return new News($entityId, $content, $createdAt);
     }
 }

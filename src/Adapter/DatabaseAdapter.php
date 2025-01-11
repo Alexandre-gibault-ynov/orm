@@ -6,7 +6,7 @@ namespace App\Adapter;
 
 use PDOStatement;
 
-interface DatabaseAdapterInterface
+interface DatabaseAdapter
 {
     /**
      * Database reading operations.

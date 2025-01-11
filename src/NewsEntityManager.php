@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Adapter\DatabaseAdapterInterface;
+use App\Adapter\DatabaseAdapter;
 use App\Adapter\MySQLAdapter;
 use App\Config\Config;
 use App\Manager\EntityManager;
-use App\Model\News;
+use App\Model\Entity;
 use App\Model\VO\Uid;
 use App\Repository\NewsRepository;
+use DateMalformedStringException;
 
-class NewsEntityManager implements EntityManager
+final class NewsEntityManager implements EntityManager
 {
     private readonly NewsRepository $repository;
-    private readonly DatabaseAdapterInterface $adapter;
+    private readonly DatabaseAdapter $adapter;
 
     public function __construct() {
         $config = Config::getDatabaseConfig();
@@ -23,38 +24,42 @@ class NewsEntityManager implements EntityManager
         $this->repository = new NewsRepository($this->adapter);
     }
 
-    public function getById(Uid $id): News
+    /**
+     * @inheritdoc
+     * @throws DateMalformedStringException
+     */
+    public function getById(Uid $id): Entity
     {
         return $this->repository->findById($id->getValue());
     }
 
-    public function create(News $news): News
+    public function create(Entity $entity): Entity
     {
-        if (!$news->getId()) {
-            $news->setId(Uid::generate());
+        if (!$entity->getId()) {
+            $entity->setId(Uid::generate());
         }
         $sql = "INSERT INTO news (id, content, created_at) VALUES (:id, :content, :created_at)";
         $this->adapter->execute($sql, [
-            'id' => $news->getId()->getValue(),
-            'content' => $news->getContent(),
-            'created_at' => $news->getCreatedAt()->format('Y-m-d H:i:s'),
+            'id' => $entity->getId()->getValue(),
+            'content' => $entity->getContent(),
+            'created_at' => $entity->getCreatedAt()->format('Y-m-d H:i:s'),
         ]);
-        return $news;
+        return $entity;
     }
 
-    public function update(News $news): News
+    public function update(Entity $entity): Entity
     {
         $sql = "UPDATE news SET content = :content, created_at = :created_at WHERE id = :id";
         $this->adapter->execute($sql, [
-            'id' => $news->getId()->getValue(),
-            'content' => $news->getContent(),
-            'created_at' => $news->getCreatedAt()->format('Y-m-d H:i:s'),
+            'id' => $entity->getId()->getValue(),
+            'content' => $entity->getContent(),
+            'created_at' => $entity->getCreatedAt()->format('Y-m-d H:i:s'),
         ]);
-        return $this->repository->findById($news->getId()->getValue());
+        return $this->repository->findById($entity->getId()->getValue());
     }
 
-    public function delete(News $news): void {
+    public function delete(Entity $entity): void {
         $sql = "DELETE FROM news WHERE id = :id";
-        $this->adapter->execute($sql, ['id' => $news->getId()->getValue()]);
+        $this->adapter->execute($sql, ['id' => $entity->getId()->getValue()]);
     }
 }
