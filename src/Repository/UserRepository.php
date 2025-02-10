@@ -23,7 +23,6 @@ final class UserRepository implements Repository
 
     /**
      * @inheritDoc
-     * @throws DateMalformedStringException
      */
     public function findById(string $id): ?Entity
     {
@@ -39,7 +38,11 @@ final class UserRepository implements Repository
         $login = $data['login'];
         $password = $data['password'];
         $email = $data['email'];
-        $createdAt = new DateTimeImmutable($data['created_at']);
+        try {
+            $createdAt = new DateTimeImmutable($data['created_at']);
+        } catch (DateMalformedStringException $e) {
+            echo "Error: " . $e->getMessage();
+        }
 
         return new User(
             $entityId,

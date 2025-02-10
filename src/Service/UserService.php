@@ -8,6 +8,7 @@ use App\Manager\UserEntityManager;
 use App\Model\User;
 use App\Model\VO\Uid;
 use DateTimeImmutable;
+use Exception;
 use InvalidArgumentException;
 
 final class UserService
@@ -30,7 +31,7 @@ final class UserService
         $user = new User(Uid::generate(),
             $data['login'],
             password_hash($data['password'], PASSWORD_BCRYPT),
-            $data['email]'],
+            $data['email'],
             new DateTimeImmutable());
 
         $this->userEntityManager->create($user);
@@ -43,10 +44,42 @@ final class UserService
     }
 
     public function updateUser(array $user): void {
-        // TODO
+        if (empty($data['id'])) {
+            throw new InvalidArgumentException("User ID is required.");
+        }
+
+        $user = $this->userEntityManager->getById($data['id']);
+        if (!$user) {
+            throw new Exception("User not found.");
+        }
+
+        if (!empty($data['login'])) {
+            $user->setLogin($data['login']);
+        }
+        if (!empty($data['password'])) {
+            $user->setPassword(password_hash($data['password'], PASSWORD_BCRYPT));
+        }
+        if (!empty($data['email'])) {
+            $user->setEmail($data['email']);
+        }
+
+        $this->userEntityManager->update($user);
+
+        $this->observer->onUserUpdated($user);
     }
 
     public function deleteUser(array $user): void {
+        if (empty($data['id'])) {
+            throw new InvalidArgumentException("User ID is required.");
+        }
 
+        $user = $this->userEntityManager->getById($data['id']);
+        if (!$user) {
+            throw new Exception("User not found.");
+        }
+
+        $this->userEntityManager->delete($user);
+
+        $this->observer->onUserDeleted($user);
     }
 }

@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
-use App\Command\Command;
 use App\Service\UserService;
+use Exception;
 
 class UpdateUserCommand implements Command
 {
@@ -15,10 +17,10 @@ class UpdateUserCommand implements Command
     {
         try {
             $userService = new UserService();
-            $user = $userService->updateUser($data);
-            echo json_encode($user, JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
-            echo "Erreur : " . $e->getMessage() . "\n";
+            $userService->updateUser($data);
+            echo "OK\n";
+        } catch (Exception $e) {
+            echo "Error : " . $e->getMessage() . "\n";
         }
     }
 }

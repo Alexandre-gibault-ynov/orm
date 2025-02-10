@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
-use App\Command\Command;
+use App\Service\UserService;
+use Exception;
 
 class DeleteUserCommand implements Command
 {
@@ -15,9 +18,9 @@ class DeleteUserCommand implements Command
         try {
             $userService = new UserService();
             $userService->deleteUser($data['id']);
-            echo json_encode(['message' => 'User deleted successfully'], JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
-            echo "Erreur : " . $e->getMessage() . "\n";
+            echo "OK\n";
+        } catch (Exception $e) {
+            echo "Error : " . $e->getMessage() . "\n";
         }
     }
 }
