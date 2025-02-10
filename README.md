@@ -15,6 +15,8 @@ The ORM allows:
 - **Reading** data via the Repository.
 - **Writing** data via the Adapter.
 - **Coordination** of operations via the Manager.
+- User Management (CRUD operations for users).
+- Fake notifications on new user added
 
 ---
 
@@ -24,7 +26,10 @@ The ORM allows:
 - **Repository**: Manages read operations, interfacing with the database via the Adapter.
 - **Manager**: Coordinates reading and writing operations using both the Repository and Adapter.
 - **Environment Configuration**: Loads database settings from a `.env` file.
-
+- **User Management**: Allows creating, updating, and deleting users.
+- **Observer Pattern**: Used to trigger actions such as email notifications.
+- **CLI Command Execution**: Execute operations via app.php.
+- 
 ---
 
 ## Prerequisites
@@ -73,3 +78,26 @@ Make sure the following tools are installed on your system:
    Make sure to assign the correct path to the `.env` file previously created.
 
 Then run a script that will interact with the `NewsEntityManager.php`.
+
+---
+
+## Usage
+
+The application supports CLI commands to manage users and news.
+
+### 1. User Management
+
+- Add a user
+```bash 
+php app.php add '{"login":"john_doe","password":"secure123","email":"john@example.com"}'
+```
+
+- Update a user
+```bash
+php app.php update '{"id":"1","email":"new@example.com"}'
+```
+
+- Delete a user
+```bash
+php app.php delete '{"id":"1"}'
+```
