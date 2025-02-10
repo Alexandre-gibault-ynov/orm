@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Manager\UserEntityManager;
 use App\Model\User;
 use App\Model\VO\Uid;
+use App\Observer\UserObserver;
 use DateTimeImmutable;
 use Exception;
 use InvalidArgumentException;
@@ -14,9 +15,11 @@ use InvalidArgumentException;
 final class UserService
 {
     private $userEntityManager;
+    private $observer;
 
     public function __construct()
     {
+        $this->observer = new UserObserver();
         $this->userEntityManager = new UserEntityManager();
     }
 
@@ -79,7 +82,5 @@ final class UserService
         }
 
         $this->userEntityManager->delete($user);
-
-        $this->observer->onUserDeleted($user);
     }
 }
